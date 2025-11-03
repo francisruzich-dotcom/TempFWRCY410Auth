@@ -1,0 +1,6 @@
+{
+    "username": "testuser",
+    "name": "Test User",
+    "salt": "5d4bc538e7212d066519ee729beaa2c9",
+    "hashed_password": "b5033558c4df169c2155be3c30087201f3ff061d8fb83a08ed19cc0446503743"
+}
