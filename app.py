@@ -12,8 +12,7 @@ def create_user(username, name, password, users_dir):
 
     user_file = os.path.join(users_dir, f"{username}.json")
     if os.path.exists(user_file):
-        print(f"Error: User '{username}' already exists.")
-        return
+        return False
 
     salt = secrets.token_hex(16)
     hashed_password = hashlib.sha256((password + salt).encode()).hexdigest()
@@ -28,14 +27,13 @@ def create_user(username, name, password, users_dir):
     with open(user_file, "w") as f:
         json.dump(user_data, f, indent=4)
 
-    print(f"User '{username}' created successfully.")
+    return True
 
 def login(username, password, users_dir):
     """Logs in a user by verifying their password."""
     user_file = os.path.join(users_dir, f"{username}.json")
     if not os.path.exists(user_file):
-        print("Login failed. Incorrect username or password.")
-        return
+        return False
 
     with open(user_file, "r") as f:
         user_data = json.load(f)
@@ -44,9 +42,9 @@ def login(username, password, users_dir):
     hashed_password = user_data["hashed_password"]
 
     if hashlib.sha256((password + salt).encode()).hexdigest() == hashed_password:
-        print("Login successful!")
+        return True
     else:
-        print("Login failed. Incorrect username or password.")
+        return False
 
 def main():
     """Main function to handle command-line arguments."""
