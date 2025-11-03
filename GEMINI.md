@@ -13,7 +13,15 @@
     - `login <username> <password>`: To authenticate an existing user.
 - **User Attributes:** Each user has a `username`, `name`, and `password`.
 
+## Unit Testing and Refactoring
+- Added a comprehensive suite of unit tests using Python's `unittest` framework.
+- **Security Testing:** The tests specifically cover:
+    - Vague error messages for login to prevent username enumeration.
+    - Correctness of the password hashing and salting mechanism.
+    - Enforcement of unique usernames.
+- **Code Refactoring:** The application was refactored to improve modularity and testability by removing global variables and using function arguments for dependencies.
+
 ## Current Status
 - The authentication module has been fully implemented and tested.
-- User creation and login functionalities are working as expected.
+- All unit tests are passing.
 - All changes have been committed and pushed to the remote Git repository.
