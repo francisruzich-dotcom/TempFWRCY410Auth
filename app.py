@@ -5,14 +5,12 @@ import hashlib
 import secrets
 import argparse
 
-USERS_DIR = "users"
-
-def create_user(username, name, password):
+def create_user(username, name, password, users_dir):
     """Creates a new user and stores their data in a JSON file."""
-    if not os.path.exists(USERS_DIR):
-        os.makedirs(USERS_DIR)
+    if not os.path.exists(users_dir):
+        os.makedirs(users_dir)
 
-    user_file = os.path.join(USERS_DIR, f"{username}.json")
+    user_file = os.path.join(users_dir, f"{username}.json")
     if os.path.exists(user_file):
         print(f"Error: User '{username}' already exists.")
         return
@@ -32,11 +30,11 @@ def create_user(username, name, password):
 
     print(f"User '{username}' created successfully.")
 
-def login(username, password):
+def login(username, password, users_dir):
     """Logs in a user by verifying their password."""
-    user_file = os.path.join(USERS_DIR, f"{username}.json")
+    user_file = os.path.join(users_dir, f"{username}.json")
     if not os.path.exists(user_file):
-        print(f"Error: User '{username}' not found.")
+        print("Login failed. Incorrect username or password.")
         return
 
     with open(user_file, "r") as f:
@@ -48,10 +46,11 @@ def login(username, password):
     if hashlib.sha256((password + salt).encode()).hexdigest() == hashed_password:
         print("Login successful!")
     else:
-        print("Login failed. Incorrect password.")
+        print("Login failed. Incorrect username or password.")
 
 def main():
     """Main function to handle command-line arguments."""
+    USERS_DIR = "users"
     parser = argparse.ArgumentParser(description="Authentication Module")
     subparsers = parser.add_subparsers(dest="command")
 
@@ -69,9 +68,9 @@ def main():
     args = parser.parse_args()
 
     if args.command == "create":
-        create_user(args.username, args.name, args.password)
+        create_user(args.username, args.name, args.password, USERS_DIR)
     elif args.command == "login":
-        login(args.username, args.password)
+        login(args.username, args.password, USERS_DIR)
     else:
         parser.print_help()
 
